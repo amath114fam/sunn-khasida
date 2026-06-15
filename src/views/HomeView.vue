@@ -1,38 +1,26 @@
+<script setup>
+import { ref, onMounted, computed } from 'vue'
+import { RouterLink } from 'vue-router'
+import albumsData from '../data/album.js'
+import { useRouter } from 'vue-router'
+const router = useRouter()
+
+const albums = ref([])
+const recherche = ref('')
+
+onMounted(() => {
+  setTimeout(() => {
+    albums.value = albumsData
+  }, 300)
+})
+
+function detailAlbum(id) {
+  router.push(`/album/${id}`)
+}
+</script>
+
+
 <template>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-<div class="container">
-
-<a class="navbar-brand fw-bold" href="#">
-🎵 Sunu-Khasida
-</a>
-
-<button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menu">
-<span class="navbar-toggler-icon"></span>
-</button>
-
-<div class="collapse navbar-collapse" id="menu">
-
-<ul class="navbar-nav ms-auto">
-
-<li class="nav-item">
-<a class="nav-link" href="#">Accueil</a>
-</li>
-
-<li class="nav-item">
-<a class="nav-link" href="#">Albums</a>
-</li>
-
-<li class="nav-item">
-<a class="nav-link" href="#">Favoris</a>
-</li>
-
-</ul>
-
-</div>
-
-</div>
-</nav>
-
 <section class="hero">
 <div>
 
@@ -68,65 +56,21 @@ Albums populaires
 </h2>
 
 <div class="row g-4">
-
-<div class="col-md-4">
-<div class="card album-card">
+<div class="col-md-4" v-for="album in albums" @click="detailAlbum(album.id)">
+<div class="card album-card" >
 
 <img
-src="https://picsum.photos/400/300?1"
+:src="album.cover"
 class="card-img-top"
 >
 
 <div class="card-body">
 
-<h5>Matlaboul Fawzayni</h5>
+<h5>{{ album.titre }}</h5>
 
 <p class="text-muted">
-Cheikh Ahmadou Bamba
+{{ album.artiste }}
 </p>
-
-</div>
-
-</div>
-</div>
-
-<div class="col-md-4">
-<div class="card album-card">
-
-<img
-src="https://picsum.photos/400/300?2"
-class="card-img-top"
->
-
-<div class="card-body">
-
-<h5>Jazbul Qulub</h5>
-
-<p class="text-muted">
-Khassaïdes
-</p>
-
-</div>
-
-</div>
-</div>
-
-<div class="col-md-4">
-<div class="card album-card">
-
-<img
-src="https://picsum.photos/400/300?3"
-class="card-img-top"
->
-
-<div class="card-body">
-
-<h5>Mawahibou</h5>
-
-<p class="text-muted">
-Récitations
-</p>
-
 </div>
 
 </div>
@@ -147,6 +91,7 @@ La plateforme moderne dédiée aux Khassaïdes.
 </p>
 
 </footer>
+</template>
     <style scoped>
 
 body{
@@ -197,4 +142,3 @@ footer{
 }
 
 </style>
-</template>

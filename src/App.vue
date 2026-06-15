@@ -1,12 +1,12 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import LecteurAudio from './components/LecteurAudio.vue'
 </script>
 
 <template>
   <div class="app-layout">
+    
     <header class="app-header">
-      <RouterLink to="/" class="logo">🎵 Sunu-Music</RouterLink>
+      <RouterLink to="/" class="logo">🎵 Sunu-Khasida</RouterLink>
       <nav>
         <RouterLink to="/" class="nav-link">Accueil</RouterLink>
       </nav>
