@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import albumsData from '../data/album.js'
+import LignePiste from '@/components/LignePiste.vue'
 
 const route = useRoute()
 
@@ -28,12 +29,12 @@ function gererSelection(piste) {
     </div>
 
     <div class="tracklist">
-      <!-- <LignePiste
+      <LignePiste
         v-for="piste in album.chansons"
         :key="piste.id"
         :piste="piste"
         @selectionner="gererSelection"
-      /> -->
+      />
     </div>
   </div>
   <div v-else class="not-found">Album introuvable.</div>
