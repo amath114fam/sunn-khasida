@@ -1,5 +1,13 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import { ref } from 'vue'
+import LecteurAudio from './components/LecteurAudio.vue'
+
+const pisteActuelle = ref(null)
+
+function definirPiste(piste) {
+  pisteActuelle.value = piste
+}
 </script>
 
 <template>
@@ -13,10 +21,13 @@ import { RouterLink, RouterView } from 'vue-router'
     </header>
 
     <main class="app-main">
-      <RouterView />
+      <RouterView v-slot="{ Component }">
+        <component :is="Component" @piste-selectionnee="definirPiste" />
+      </RouterView>
+
     </main>
 
-    <LecteurAudio />
+    <LecteurAudio :piste="pisteActuelle" />
   </div>
 </template>
 
