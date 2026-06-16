@@ -17,6 +17,8 @@ onMounted(() => {
 function detailAlbum(id) {
   router.push(`/album/${id}`)
 }
+
+
 </script>
 
 
