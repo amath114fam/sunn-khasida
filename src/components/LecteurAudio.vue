@@ -1,9 +1,10 @@
 <script setup>
+import router from '@/router'
 import { ref, watch, computed } from 'vue'
 
 //La prop reçue depuis App.vue
 const props = defineProps({
-  piste: { type: Object, default: null }
+  piste: { type: Object, default: null },
 })
 
 // Référence vers la balise <audio> du template
@@ -22,15 +23,15 @@ watch(() => props.piste, (nouvellePiste) => {
   audioEl.value.volume = volume.value
   audioEl.value.play()
   enLecture.value = true
-})
+}, { immediate: true })
 
 // Basculer play / pause
 function toggleLecture() {
   if (!audioEl.value) return
   if (enLecture.value) {
-    audioEl.value.pause()
+    audioEl.value.pause()    
   } else {
-    audioEl.value.play()
+    audioEl.value.play()    
   }
   enLecture.value = !enLecture.value
 }
@@ -62,11 +63,18 @@ function formaterTemps(sec) {
 const progression = computed(() => {
   if (!dureeTotal.value) return 0
   return (tempsActuel.value / dureeTotal.value) * 100
-})
+}) 
+function AlbumRedirect(idAlbum) {
+  router.push(`/album/${idAlbum}`)
+}
+
+
+
+//
 </script>
 
 <template>
-  <div class="lecteur" v-if="piste">
+  <div class="lecteur" v-if="piste" @click="AlbumRedirect(piste.albumId)">
     <audio
       ref="audioEl"
       @timeupdate="tempsActuel = audioEl.currentTime"
@@ -81,7 +89,7 @@ const progression = computed(() => {
 
     <!-- Contrôles centraux -->
     <div class="controles">
-      <button class="btn-play" @click="toggleLecture">
+      <button class="btn-play" @click.stop="toggleLecture">
         {{ enLecture ? '⏸' : '▶' }}
       </button>
 

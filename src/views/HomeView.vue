@@ -1,12 +1,10 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import { RouterLink } from 'vue-router'
 import albumsData from '../data/album.js'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const albums = ref([])
-const recherche = ref('')
 
 onMounted(() => {
   setTimeout(() => {
@@ -18,7 +16,15 @@ function detailAlbum(id) {
   router.push(`/album/${id}`)
 }
 
+const recherche = ref('')
 
+const albumsFiltres = computed(() => {
+  const texte = recherche.value.toLowerCase()
+  return albums.value.filter(album =>
+    album.titre.toLowerCase().includes(texte) ||
+    album.artiste.toLowerCase().includes(texte)
+  )
+})
 </script>
 
 
@@ -50,6 +56,7 @@ Découvrir les albums
 type="text"
 class="form-control form-control-lg"
 placeholder="Rechercher un Khassaïde..."
+v-model="recherche"
 >
 </div>
 
@@ -58,7 +65,7 @@ Albums populaires
 </h2>
 
 <div class="row g-4">
-<div class="col-md-4" v-for="album in albums" @click="detailAlbum(album.id)">
+<div class="col-md-4" v-for="album in albumsFiltres" @click="detailAlbum(album.id)">
 <div class="card album-card" >
 
 <img

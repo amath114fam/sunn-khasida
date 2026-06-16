@@ -13,7 +13,10 @@ const album = computed(() =>
 const emit = defineEmits(['piste-selectionnee'])
 
 function gererSelection(piste) {
-  emit('piste-selectionnee', piste)
+  emit('piste-selectionnee', {
+    ...piste,
+    albumId: album.value.id
+  })
 }
 </script>
 
