@@ -1,10 +1,9 @@
 <script setup>
-import router from '@/router'
-import { ref, watch, computed } from 'vue'
+import { ref, watch, computed, nextTick } from 'vue'
 
 //La prop reçue depuis App.vue
 const props = defineProps({
-  piste: { type: Object, default: null },
+  piste: { type: Object, default: null }
 })
 
 // Référence vers la balise <audio> du template
@@ -16,22 +15,27 @@ const tempsActuel = ref(0)
 const dureeTotal = ref(0)
 const volume = ref(0.8)
 
-// Quand la piste change, on charge la nouvelle source et on joue
-watch(() => props.piste, (nouvellePiste) => {
-  if (!nouvellePiste || !audioEl.value) return
+// ④ Quand la piste change → on charge la nouvelle source et on joue
+watch(() => props.piste, async(nouvellePiste) => {
+  console.log('watch déclenché')
+  console.log(audioEl.value)
+  if (!nouvellePiste) return
+  await nextTick()
+  if (!audioEl.value) return
+
   audioEl.value.src = nouvellePiste.fichier
   audioEl.value.volume = volume.value
   audioEl.value.play()
   enLecture.value = true
-}, { immediate: true })
+})
 
 // Basculer play / pause
 function toggleLecture() {
   if (!audioEl.value) return
   if (enLecture.value) {
-    audioEl.value.pause()    
+    audioEl.value.pause()
   } else {
-    audioEl.value.play()    
+    audioEl.value.play()
   }
   enLecture.value = !enLecture.value
 }
@@ -63,18 +67,11 @@ function formaterTemps(sec) {
 const progression = computed(() => {
   if (!dureeTotal.value) return 0
   return (tempsActuel.value / dureeTotal.value) * 100
-}) 
-function AlbumRedirect(idAlbum) {
-  router.push(`/album/${idAlbum}`)
-}
-
-
-
-//
+})
 </script>
 
 <template>
-  <div class="lecteur" v-if="piste" @click="AlbumRedirect(piste.albumId)">
+  <div class="lecteur" v-if="piste">
     <audio
       ref="audioEl"
       @timeupdate="tempsActuel = audioEl.currentTime"
@@ -89,7 +86,7 @@ function AlbumRedirect(idAlbum) {
 
     <!-- Contrôles centraux -->
     <div class="controles">
-      <button class="btn-play" @click.stop="toggleLecture">
+      <button class="btn-play" @click="toggleLecture">
         {{ enLecture ? '⏸' : '▶' }}
       </button>
 
