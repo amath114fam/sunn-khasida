@@ -1,15 +1,15 @@
 <script setup>
 import { ref, watch, computed, nextTick } from 'vue'
 
-// ① La prop reçue depuis App.vue
+//La prop reçue depuis App.vue
 const props = defineProps({
   piste: { type: Object, default: null }
 })
 
-// ② Référence vers la balise <audio> du template
+// Référence vers la balise <audio> du template
 const audioEl = ref(null)
 
-// ③ État local du lecteur
+// État local du lecteur
 const enLecture = ref(false)
 const tempsActuel = ref(0)
 const dureeTotal = ref(0)
@@ -22,13 +22,14 @@ watch(() => props.piste, async(nouvellePiste) => {
   if (!nouvellePiste) return
   await nextTick()
   if (!audioEl.value) return
+
   audioEl.value.src = nouvellePiste.fichier
   audioEl.value.volume = volume.value
   audioEl.value.play()
   enLecture.value = true
 })
 
-// ⑤ Basculer play / pause
+// Basculer play / pause
 function toggleLecture() {
   if (!audioEl.value) return
   if (enLecture.value) {
@@ -39,7 +40,7 @@ function toggleLecture() {
   enLecture.value = !enLecture.value
 }
 
-// ⑥ Avancer dans la chanson en cliquant sur la barre
+// Avancer dans la chanson en cliquant sur la barre
 function seeker(event) {
   if (!audioEl.value || !dureeTotal.value) return
   const barre = event.currentTarget
@@ -47,14 +48,14 @@ function seeker(event) {
   audioEl.value.currentTime = ratio * dureeTotal.value
 }
 
-// ⑦ Changer le volume
+// Changer le volume
 function changerVolume(event) {
   const val = event.target.value / 100
   volume.value = val
   if (audioEl.value) audioEl.value.volume = val
 }
 
-// ⑧ Formater les secondes → "3:45"
+// Formater les secondes "3:45"
 function formaterTemps(sec) {
   if (!sec || isNaN(sec)) return '0:00'
   const m = Math.floor(sec / 60)
@@ -62,7 +63,7 @@ function formaterTemps(sec) {
   return `${m}:${s}`
 }
 
-// ⑨ Pourcentage de progression (pour la largeur CSS de la barre)
+// Pourcentage de progression (pour la largeur CSS de la barre)
 const progression = computed(() => {
   if (!dureeTotal.value) return 0
   return (tempsActuel.value / dureeTotal.value) * 100
@@ -71,7 +72,6 @@ const progression = computed(() => {
 
 <template>
   <div class="lecteur" v-if="piste">
-    <!-- La balise audio native — invisible, mais c'est elle qui joue -->
     <audio
       ref="audioEl"
       @timeupdate="tempsActuel = audioEl.currentTime"
@@ -101,7 +101,6 @@ const progression = computed(() => {
 
     <!-- Volume -->
     <div class="volume">
-      🔉
       <input type="range" min="0" max="100" :value="volume * 100" @input="changerVolume" />
     </div>
   </div>
