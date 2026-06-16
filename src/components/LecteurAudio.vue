@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, computed } from 'vue'
+import { ref, watch, computed, nextTick } from 'vue'
 
 // ① La prop reçue depuis App.vue
 const props = defineProps({
@@ -16,8 +16,12 @@ const dureeTotal = ref(0)
 const volume = ref(0.8)
 
 // ④ Quand la piste change → on charge la nouvelle source et on joue
-watch(() => props.piste, (nouvellePiste) => {
-  if (!nouvellePiste || !audioEl.value) return
+watch(() => props.piste, async(nouvellePiste) => {
+  console.log('watch déclenché')
+  console.log(audioEl.value)
+  if (!nouvellePiste) return
+  await nextTick()
+  if (!audioEl.value) return
   audioEl.value.src = nouvellePiste.fichier
   audioEl.value.volume = volume.value
   audioEl.value.play()
