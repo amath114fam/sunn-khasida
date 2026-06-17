@@ -77,7 +77,7 @@ function detailAlbum(id) {
 </script>
 
 <template>
-  <div class="lecteur" v-if="piste">
+  <div class="lecteur" v-if="piste"  @click="detailAlbum(piste.albumId)">
 
     <audio
       ref="audioEl"
@@ -87,7 +87,7 @@ function detailAlbum(id) {
     />
 
     <!-- Album -->
-    <div class="album" @click="detailAlbum(piste.albumId)">
+    <div class="album">
       <!-- <img
         :src="album.params.piste.image || '/default-cover.jpg'"
         alt=""
