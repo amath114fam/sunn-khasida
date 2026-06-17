@@ -4,23 +4,19 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-// ① La prop reçue depuis App.vue
 const props = defineProps({
   piste: { type: Object, default: null }
 })
 
-// ② Référence vers la balise <audio> du template
 const audioEl = ref(null)
 
 const emit = defineEmits(['update:enLecture'])
 
-// ③ État local du lecteur
 const enLecture = ref(false)
 const tempsActuel = ref(0)
 const dureeTotal = ref(0)
 const volume = ref(0.8)
 
-// ④ Quand la piste change → on charge la nouvelle source et on joue
 watch(() => props.piste, async(nouvellePiste) => {
   console.log('watch déclenché')
   console.log(audioEl.value)
@@ -34,7 +30,6 @@ watch(() => props.piste, async(nouvellePiste) => {
   emit('update:enLecture', true)
 })
 
-// ⑤ Basculer play / pause
 function toggleLecture() {
   if (!audioEl.value) return
   if (enLecture.value) {
@@ -46,7 +41,6 @@ function toggleLecture() {
   emit('update:enLecture', enLecture.value)
 }
 
-// ⑥ Avancer dans la chanson en cliquant sur la barre
 function seeker(event) {
   if (!audioEl.value || !dureeTotal.value) return
   const barre = event.currentTarget
@@ -54,14 +48,12 @@ function seeker(event) {
   audioEl.value.currentTime = ratio * dureeTotal.value
 }
 
-// ⑦ Changer le volume
 function changerVolume(event) {
   const val = event.target.value / 100
   volume.value = val
   if (audioEl.value) audioEl.value.volume = val
 }
 
-// ⑧ Formater les secondes → "3:45"
 function formaterTemps(sec) {
   if (!sec || isNaN(sec)) return '0:00'
   const m = Math.floor(sec / 60)
@@ -69,7 +61,6 @@ function formaterTemps(sec) {
   return `${m}:${s}`
 }
 
-// ⑨ Pourcentage de progression (pour la largeur CSS de la barre)
 const progression = computed(() => {
   if (!dureeTotal.value) return 0
   return (tempsActuel.value / dureeTotal.value) * 100
@@ -81,7 +72,7 @@ function detailAlbum(id) {
 </script>
 
 <template>
-  <div class="lecteur" v-if="piste" >
+  <div class="lecteur" v-if="piste">
 
     <audio
       ref="audioEl"
@@ -92,11 +83,6 @@ function detailAlbum(id) {
 
     <!-- Album -->
     <div class="album" @click="detailAlbum(piste.albumId)">
-      <!-- <img
-        :src="album.params.piste.image || '/default-cover.jpg'"
-        alt=""
-      /> -->
-
       <div class="infos">
         <h3>{{ piste.titre }}</h3>
         <p>{{ piste.artiste || 'Sunn Khasida' }}</p>
@@ -117,12 +103,10 @@ function detailAlbum(id) {
         </span>
 
         <div class="barre" @click="seeker">
-
           <div
             class="barre-fill"
             :style="{ width: progression + '%' }"
           />
-
         </div>
 
         <span>
@@ -149,11 +133,6 @@ function detailAlbum(id) {
     </div>
 
   </div>
-
-  <!-- <div v-else class="vide">
-    🎵 Sélectionne une piste
-  </div> -->
-
 </template>
 
 <style scoped>
@@ -393,5 +372,115 @@ color:#777;
 
 }
 
+/* ── Responsive ── */
+
+@media (max-width: 768px) {
+  .lecteur {
+    padding: 0 14px;
+    height: 80px;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+  }
+
+  .album {
+    width: auto;
+    max-width: 160px;
+  }
+
+  .infos h3 {
+    font-size: 0.82rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 140px;
+  }
+
+  .infos p {
+    font-size: 0.72rem;
+  }
+
+  .controles {
+    width: 50%;
+  }
+
+  .btn-play {
+    width: 42px;
+    height: 42px;
+    font-size: 17px;
+  }
+
+  .timeline {
+    gap: 8px;
+    margin-top: 7px;
+  }
+
+  .timeline span {
+    font-size: 0.68rem;
+    width: 32px;
+  }
+
+  .volume input {
+    width: 70px;
+  }
+
+  .volume {
+    width: auto;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .lecteur {
+    padding: 0 12px;
+    height: 72px;
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
+    border-radius: 16px;
+  }
+
+  .album {
+    max-width: 110px;
+  }
+
+  .infos h3 {
+    font-size: 0.78rem;
+    max-width: 100px;
+  }
+
+  .infos p {
+    font-size: 0.68rem;
+    margin-top: 2px;
+  }
+
+  .controles {
+    width: 55%;
+  }
+
+  .btn-play {
+    width: 36px;
+    height: 36px;
+    font-size: 15px;
+  }
+
+  .timeline {
+    gap: 6px;
+    margin-top: 6px;
+  }
+
+  .timeline span {
+    font-size: 0.62rem;
+    width: 28px;
+  }
+
+  .barre {
+    height: 4px;
+  }
+
+  /* Volume caché sur très petit écran : on garde la place pour les contrôles */
+  .volume {
+    display: none;
+  }
+}
 </style>
-```

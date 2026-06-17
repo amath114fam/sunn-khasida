@@ -34,7 +34,6 @@ const estEnLecture = ref(false)
       <RouterLink to="/" class="logo">🎵 Sunu-Khasida</RouterLink>
       <nav>
         <RouterLink to="/" class="nav-link">Accueil</RouterLink>
-        <RouterLink to="/favoris" class="nav-link">❤️ Favoris</RouterLink>
       </nav>
     </header>
 
@@ -103,5 +102,46 @@ const estEnLecture = ref(false)
 .app-main {
   padding: 2rem;
   padding-bottom: 6rem; /* laisse de la place pour le lecteur fixe en bas */
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .app-header {
+    padding: 0.75rem 1.25rem;
+  }
+
+  .logo {
+    font-size: 1.2rem;
+  }
+
+  .nav-link {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .app-main {
+    padding: 1.25rem;
+    padding-bottom: 6rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-header {
+    padding: 0.6rem 1rem;
+  }
+
+  .logo {
+    font-size: 1rem;
+  }
+
+  .nav-link {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.85rem;
+  }
+
+  .app-main {
+    padding: 1rem;
+    padding-bottom: 6rem;
+  }
 }
 </style>

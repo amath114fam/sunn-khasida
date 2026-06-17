@@ -14,7 +14,7 @@ const album = computed(() =>
 const props = defineProps({
   favoris: { type: Array, default: () => [] },
   pisteActuelle: { type: Object, default: null },
-  estEnLecture: { type: Boolean, default: false } // ← ajoute
+  estEnLecture: { type: Boolean, default: false }
 })
 
 const emit = defineEmits(['piste-selectionnee', 'toggle-favori'])
@@ -25,7 +25,7 @@ function gererFavori(piste) {
     albumId: album.value.id,
     albumTitre: album.value.titre,
     albumArtiste: album.value.artiste,
-    albumCover: album.value.cover  // ← on enrichit ici !
+    albumCover: album.value.cover
   })
 }
 function gererSelection(piste) {
@@ -35,10 +35,8 @@ function gererSelection(piste) {
   })
 }
 
-// ajout : lit ?chanson=7 dans l'URL
 const chansonCible = computed(() => route.query.chanson || null)
 
-// ajout : filtre ou affiche tout selon l'URL
 const chansonsAffichees = computed(() => {
   if (!chansonCible.value) return album.value?.chansons || []
   return album.value?.chansons.filter(c => c.id == chansonCible.value) || []
@@ -103,4 +101,66 @@ const chansonsAffichees = computed(() => {
 .genre-tag { display: inline-block; margin-top: 0.5rem; padding: 0.2rem 0.6rem; background: #1db954; border-radius: 10px; font-size: 0.75rem; }
 .tracklist { display: flex; flex-direction: column; gap: 0.3rem; }
 .not-found { text-align: center; margin-top: 2rem; color: #888; }
+
+/* ── Responsive ── */
+
+@media (max-width: 768px) {
+  .album-detail {
+    padding: 0 1.25rem;
+  }
+
+  .album-header {
+    gap: 1.25rem;
+    padding: 18px;
+    border-radius: 18px;
+  }
+
+  .album-cover-large {
+    width: 140px;
+    height: 140px;
+    border-radius: 10px;
+    flex-shrink: 0;
+  }
+
+  .album-header h1 {
+    font-size: 1.4rem;
+  }
+
+  .artiste {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .album-detail {
+    padding: 0 1rem;
+  }
+
+  .album-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .album-cover-large {
+    width: 160px;
+    height: 160px;
+  }
+
+  .album-header h1 {
+    font-size: 1.3rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .artiste {
+    font-size: 0.9rem;
+  }
+
+  .genre-tag {
+    font-size: 0.7rem;
+  }
+}
 </style>

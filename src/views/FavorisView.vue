@@ -76,4 +76,90 @@ const emit = defineEmits(['piste-selectionnee', 'toggle-favori'])
   color: #888;
   font-size: 1.2rem;
 }
+
+/* ── Responsive ── */
+
+@media (max-width: 768px) {
+  .container {
+    padding: 2rem 1.25rem;
+  }
+
+  .piste-card {
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+  }
+
+  .piste-cover {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+  }
+
+  .piste-titre {
+    font-size: 0.95rem;
+  }
+
+  .piste-album {
+    font-size: 0.78rem;
+  }
+
+  .btn-play {
+    width: 34px;
+    height: 34px;
+    font-size: 0.9rem;
+  }
+
+  .btn-favori {
+    font-size: 1.1rem;
+  }
+
+  .vide {
+    padding: 2rem 1rem;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 1.5rem 1rem;
+  }
+
+  .piste-card {
+    gap: 0.6rem;
+    padding: 0.75rem 0.85rem;
+    border-radius: 12px;
+  }
+
+  .piste-cover {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+
+  .piste-titre {
+    font-size: 0.88rem;
+  }
+
+  .piste-album {
+    font-size: 0.72rem;
+  }
+
+  .btn-play {
+    width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+  }
+
+  .btn-favori {
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .vide {
+    padding: 1.5rem 0.5rem;
+    font-size: 0.95rem;
+  }
+}
 </style>

@@ -28,12 +28,12 @@ const albumsFiltres = computed(() => {
 })
 
 const chansonsFiltrees = computed(() => {
-  if (!recherche.value.trim()) return []           // rien à afficher si vide
+  if (!recherche.value.trim()) return []
   const texte = recherche.value.toLowerCase()
 
   const resultats = []
   albums.value.forEach(album => {
-    album.chansons                                 // on entre dans chaque album
+    album.chansons
       ?.filter(chanson => chanson.titre.toLowerCase().includes(texte))
       .forEach(chanson => {
         resultats.push({
@@ -47,16 +47,16 @@ const chansonsFiltrees = computed(() => {
   })
   return resultats
 })
+
 function allerAChanson(albumId, chansonId) {
   router.push(`/album/${albumId}?chanson=${chansonId}`)
 }
 
 function favorislAlbum() {
   router.push(`/favoris`)
-  
 }
 </script>
-```vue
+
 <template>
 
 <div class="home">
@@ -575,21 +575,166 @@ background-color: #021128;
 }
 
 
-/* MOBILE */
+/* ── Responsive ── */
 
 @media(max-width:768px){
 
-.hero h1{
+  .hero{
+    height:70vh;
+  }
 
-font-size:3rem;
+  .hero h1{
+    font-size:3rem;
+  }
+
+  .hero p{
+    font-size:1rem;
+    margin-bottom:28px;
+  }
+
+  .badge-app{
+    font-size:0.85rem;
+    padding:8px 14px;
+    margin-bottom:20px;
+  }
+
+  .hero-btn{
+    padding:14px 30px;
+    font-size:0.95rem;
+  }
+
+  .contenu{
+    padding:50px 0;
+  }
+
+  .search-box{
+    padding:0 1.25rem;
+    margin-bottom:40px;
+  }
+
+  .search-box input{
+    padding:16px;
+    font-size:0.95rem;
+  }
+
+  .resultats{
+    padding:0 1.25rem;
+    margin-bottom:50px;
+  }
+
+  .albums{
+    padding:0 1.25rem;
+  }
+
+  .titre{
+    font-size:1.5rem;
+    margin-bottom:20px;
+  }
+
+  .grille{
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap:16px;
+  }
+
+  .image img{
+    height:200px;
+  }
+
+  .infos{
+    padding:14px;
+  }
+
+  .result-card img{
+    width:55px;
+    height:55px;
+  }
+
+  footer{
+    padding:40px 20px;
+  }
 }
 
-.hero p{
+@media(max-width:480px){
 
-font-size:1rem;
+  .hero{
+    height:60vh;
+  }
+
+  .hero h1{
+    font-size:2.2rem;
+  }
+
+  .hero p{
+    font-size:0.9rem;
+  }
+
+  .hero-btn{
+    padding:12px 24px;
+    font-size:0.9rem;
+  }
+
+  .contenu{
+    padding:36px 0;
+  }
+
+  .search-box{
+    padding:0 1rem;
+    margin-bottom:30px;
+  }
+
+  .search-box input{
+    padding:14px;
+    border-radius:14px;
+  }
+
+  .resultats{
+    padding:0 1rem;
+  }
+
+  .result-card{
+    gap:12px;
+    padding:14px;
+  }
+
+  .result-card img{
+    width:48px;
+    height:48px;
+    border-radius:10px;
+  }
+
+  .albums{
+    padding:0 1rem;
+  }
+
+  .titre{
+    font-size:1.3rem;
+  }
+
+  .grille{
+    grid-template-columns: repeat(2, 1fr);
+    gap:12px;
+  }
+
+  .image img{
+    height:160px;
+  }
+
+  .infos{
+    padding:10px 12px;
+  }
+
+  .infos h5{
+    font-size:0.85rem;
+    margin:0 0 4px;
+  }
+
+  .infos p{
+    font-size:0.78rem;
+  }
+
+  footer{
+    padding:30px 16px;
+    font-size:0.9rem;
+  }
 }
-
-}
-
 </style>
-```
