@@ -63,31 +63,31 @@ function favorislAlbum() {
 
 <!-- HERO -->
 
-<section class="hero">
+  <section class="hero">
 
-<div class="overlay"/>
+  <div class="overlay"/>
 
-<div class="hero-content">
+    <div class="hero-content">
 
-<span class="badge-app">
+      <span class="badge-app">
 
-🎵 Bibliothèque numérique
+      🎵 Bibliothèque numérique
 
-</span>
+      </span>
 
-<h1>
+      <h1>
 
-Sunu
-<span>Khasida</span>
+      Sunu
+      <span>Khasida</span>
 
-</h1>
+      </h1>
 
-<p>
+      <p>
 
-Découvrez, écoutez et explorez
-les Khassaïdes dans une expérience moderne.
+      Découvrez, écoutez et explorez
+      les Khassaïdes dans une expérience moderne.
 
-</p>
+      </p>
 
 <button
 class="hero-btn"
@@ -95,151 +95,150 @@ class="hero-btn"
 >
 Mes Favoris
 </button>
+    </div>
 
-</div>
+  </section>
 
-</section>
 
+  <!-- CONTENU -->
 
-<!-- CONTENU -->
+  <section class="contenu">
 
-<section class="contenu">
+    <div class="container">
 
-<div class="container">
 
+    <!-- RECHERCHE -->
 
-<!-- RECHERCHE -->
+    <div class="search-box">
 
-<div class="search-box">
+    <input
+    type="text"
+    placeholder="Rechercher un album ou une chanson..."
+    v-model="recherche"
+    />
 
-<input
-type="text"
-placeholder="Rechercher un album ou une chanson..."
-v-model="recherche"
-/>
+    </div>
 
-</div>
 
+    <!-- RESULTAT -->
 
-<!-- RESULTAT -->
+    <div
+    v-if="chansonsFiltrees.length"
+    class="resultats"
+    >
 
-<div
-v-if="chansonsFiltrees.length"
-class="resultats"
->
+    <h2>
 
-<h2>
+    🎧 Résultats
 
-🎧 Résultats
+    </h2>
 
-</h2>
+    <div
+    class="result-card"
 
-<div
-class="result-card"
+    v-for="r in chansonsFiltrees"
 
-v-for="r in chansonsFiltrees"
+    :key="r.id"
 
-:key="r.id"
+    @click="allerAChanson(r.albumId,r.id)"
 
-@click="allerAChanson(r.albumId,r.id)"
+    >
 
->
+    <img :src="r.albumCover"/>
 
-<img :src="r.albumCover"/>
+    <div>
 
-<div>
+    <h5>
 
-<h5>
+    {{ r.chansonTitre }}
 
-{{ r.chansonTitre }}
+    </h5>
 
-</h5>
+    <p>
 
-<p>
+    {{ r.albumTitre }}
 
-{{ r.albumTitre }}
+    </p>
 
-</p>
+    </div>
 
-</div>
+    </div>
 
-</div>
+    </div>
 
-</div>
 
+    <!-- ALBUM -->
 
-<!-- ALBUM -->
+    <div class="albums">
 
-<div class="albums">
+      <div class="titre">
 
-<div class="titre">
+      Albums populaires
 
-Albums populaires
+      </div>
 
-</div>
+      <div class="grille">
 
-<div class="grille">
+        <div
+        class="album"
 
-<div
-class="album"
+        v-for="album in albumsFiltres"
 
-v-for="album in albumsFiltres"
+        :key="album.id"
 
-:key="album.id"
+        @click="detailAlbum(album.id)"
+        >
 
-@click="detailAlbum(album.id)"
->
+        <div class="image">
 
-<div class="image">
+          <img
+          :src="album.cover"
+          />
 
-<img
-:src="album.cover"
-/>
+          </div>
 
-</div>
+          <div class="infos">
 
-<div class="infos">
+          <h5>
 
-<h5>
+          {{ album.titre }}
 
-{{ album.titre }}
+          </h5>
 
-</h5>
+          <p>
 
-<p>
+          {{ album.artiste }}
 
-{{ album.artiste }}
+          </p>
 
-</p>
+        </div>
 
-</div>
+      </div>
 
-</div>
+      </div>
 
-</div>
+    </div>
 
-</div>
+    </div>
 
-</div>
+  </section>
 
-</section>
 
+  <footer>
 
-<footer>
+  <h3>
 
-<h3>
+  Sunu-Khasida
 
-Sunu-Khasida
+  </h3>
 
-</h3>
+  <p>
 
-<p>
+  Une expérience moderne dédiée aux Khassaïdes
 
-Une expérience moderne dédiée aux Khassaïdes
+  </p>
 
-</p>
-
-</footer>
+  </footer>
 
 </div>
 
@@ -373,11 +372,9 @@ transition:.3s;
 
 .hero-btn:hover{
 
-transform:
-translateY(-4px);
+transform:translateY(-4px);
 
-box-shadow:
-0 20px 40px rgba(30,215,96,.25);
+box-shadow:0 10px 20px rgba(30,215,96,.25);
 
 }
 

@@ -82,7 +82,22 @@ const chansonsAffichees = computed(() => {
 
 <style scoped>
 .album-detail { max-width: 800px; margin: 0 auto; }
-.album-header { display: flex; gap: 2rem; align-items: center; margin-bottom: 2rem; }
+.album-header {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  margin-bottom: 2rem;
+  background: linear-gradient(
+    135deg,
+    rgba(25, 230, 140, 0.12),
+    rgba(0, 0, 0, 0.85)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 24px;
+  backdrop-filter: blur(16px);
+  box-shadow:0 5px 10px rgba(0, 0, 0, 0.5);
+}
 .album-cover-large { width: 200px; height: 200px; border-radius: 12px; object-fit: cover; }
 .artiste { color: #aaa; font-size: 1.1rem; }
 .genre-tag { display: inline-block; margin-top: 0.5rem; padding: 0.2rem 0.6rem; background: #1db954; border-radius: 10px; font-size: 0.75rem; }
