@@ -8,6 +8,21 @@ const pisteActuelle = ref(null)
 function definirPiste(piste) {
   pisteActuelle.value = piste
 }
+
+// La liste des favoris
+const favoris = ref([])
+
+// Ajouter ou supprimer un favori
+function toggleFavori(piste) {
+  const existe = favoris.value.find(f => f.id === piste.id)
+  if (existe) {
+    // déjà en favori → on supprime
+    favoris.value = favoris.value.filter(f => f.id !== piste.id)
+  } else {
+    // pas encore → on ajoute
+    favoris.value.push(piste)
+  }
+}
 </script>
 
 <template>
@@ -17,12 +32,16 @@ function definirPiste(piste) {
       <RouterLink to="/" class="logo">🎵 Sunu-Khasida</RouterLink>
       <nav>
         <RouterLink to="/" class="nav-link">Accueil</RouterLink>
+        <RouterLink to="/favoris" class="nav-link">❤️ Favoris</RouterLink>
       </nav>
     </header>
 
     <main class="app-main">
       <RouterView v-slot="{ Component }">
-        <component :is="Component" @piste-selectionnee="definirPiste" />
+        <component :is="Component" 
+        :favoris="favoris"
+        @piste-selectionnee="definirPiste"
+        @toggle-favori="toggleFavori" />
       </RouterView>
 
     </main>

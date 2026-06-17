@@ -1,9 +1,19 @@
 <script setup>
+import { computed } from 'vue'
 const props = defineProps({
-  piste: { type: Object, required: true }
+  piste: { type: Object, required: true },
+  favoris: { type: Array, default: () => [] }
 })
+const emit = defineEmits(['selectionner', 'toggle-favori'])
 
-const emit = defineEmits(['selectionner'])
+// Est-ce que cette piste est déjà en favori ?
+const estFavori = computed(() =>
+  props.favoris.some(f => f.id === props.piste.id)
+)
+
+function toggleFavori() {
+  emit('toggle-favori', props.piste)
+}
 
 function jouer() {
   emit('selectionner', props.piste)
@@ -15,6 +25,9 @@ function jouer() {
     <span class="piste-icone">▶</span>
     <span class="piste-titre">{{ piste.titre }}</span>
     <span class="piste-duree">{{ piste.duree }}</span>
+    <span class="favori-btn" @click="toggleFavori">
+    {{ estFavori ? '❤️' : '🤍' }}
+    </span>
   </div>
 </template>
 

@@ -11,12 +11,25 @@ const album = computed(() =>
   albumsData.find(a => a.id === Number(route.params.id))
 )
 
-const emit = defineEmits(['piste-selectionnee'])
+const props = defineProps({
+  favoris: { type: Array, default: () => [] }
+})
 
+const emit = defineEmits(['piste-selectionnee', 'toggle-favori'])
+
+function gererFavori(piste) {
+  emit('toggle-favori', {
+    ...piste,
+    albumId: album.value.id,
+    albumTitre: album.value.titre,
+    albumArtiste: album.value.artiste,
+    albumCover: album.value.cover  // ← on enrichit ici !
+  })
+}
 function gererSelection(piste) {
   emit('piste-selectionnee', {
     ...piste,
-    albumId: album.value.id
+    albumId: album.value.id,
   })
 }
 
@@ -54,7 +67,9 @@ const chansonsAffichees = computed(() => {
         v-for="piste in chansonsAffichees"
         :key="piste.id"
         :piste="piste"
+        :favoris="favoris"
         @selectionner="gererSelection"
+        @toggle-favori="gererFavori"
       />
     </div>
   </div>
