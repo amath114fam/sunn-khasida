@@ -6,7 +6,7 @@ const albums = [
     genre: 'Khassida',
     cover: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFUCYHhdyPi2n_366W0Gy6bCrNVuwn8snzZ81nxR4xYA&s=10',
     chansons: [
-      { id: 101, titre: 'Salatul Fatihi', duree: '5:20', fichier: 'https://daaraykhassida.com/wp-content/uploads/2022/12/Wakana-hakhan-Kourel-1-HT-TOUBA-GRAND-MAGAL-DE-TOUBA-2022.mp3' },
+      { id: 101, titre: 'Du\'a de l\'Aube', duree: '3:40', fichier: 'https://daaraykhassida.com/wp-content/uploads/2022/12/Fariha-Kourel-1-HizbutTarqiyyah-Rufisque-Magal-Touba-2022-.mp3' },
       { id: 102, titre: 'Munajat du Crépuscule', duree: '4:45', fichier: 'https://daaraykhassida.com/wp-content/uploads/2022/12/Raditou-kourel-1-Adolescent-HT-Grand-Magal-Touba-18-Safar-2022.mp3' },
       { id: 103, titre: 'Dikr du Mois Sacré', duree: '6:10', fichier: 'https://daaraykhassida.com/wp-content/uploads/2022/12/Toursi-Kourel-1-Rufisque-hizbut-tarqiyyah-Magal-2022.mp3' }
     ]
