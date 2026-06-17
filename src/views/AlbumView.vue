@@ -1,10 +1,11 @@
 <script setup>
 import { computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute , useRouter} from 'vue-router'
 import albumsData from '../data/album.js'
 import LignePiste from '@/components/LignePiste.vue'
 
 const route = useRoute()
+const router = useRouter()  
 
 const album = computed(() =>
   albumsData.find(a => a.id === Number(route.params.id))
@@ -18,6 +19,15 @@ function gererSelection(piste) {
     albumId: album.value.id
   })
 }
+
+// ajout : lit ?chanson=7 dans l'URL
+const chansonCible = computed(() => route.query.chanson || null)
+
+// ajout : filtre ou affiche tout selon l'URL
+const chansonsAffichees = computed(() => {
+  if (!chansonCible.value) return album.value?.chansons || []
+  return album.value?.chansons.filter(c => c.id == chansonCible.value) || []
+})
 </script>
 
 <template>
@@ -30,10 +40,18 @@ function gererSelection(piste) {
         <span class="genre-tag">{{ album.genre }}</span>
       </div>
     </div>
+    <div v-if="chansonCible" class="mb-3">
+      <button
+        class="btn btn-outline-secondary btn-sm"
+        @click="router.push(`/album/${route.params.id}`)"
+      >
+        ← Voir toutes les chansons
+      </button>
+    </div>
 
     <div class="tracklist">
       <LignePiste
-        v-for="piste in album.chansons"
+        v-for="piste in chansonsAffichees"
         :key="piste.id"
         :piste="piste"
         @selectionner="gererSelection"

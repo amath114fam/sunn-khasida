@@ -14,6 +14,7 @@ onMounted(() => {
 
 function detailAlbum(id) {
   router.push(`/album/${id}`)
+  
 }
 
 const recherche = ref('')
@@ -25,6 +26,32 @@ const albumsFiltres = computed(() => {
     album.artiste.toLowerCase().includes(texte)
   )
 })
+
+const chansonsFiltrees = computed(() => {
+  if (!recherche.value.trim()) return []           // rien à afficher si vide
+  const texte = recherche.value.toLowerCase()
+
+  const resultats = []
+  albums.value.forEach(album => {
+    album.chansons                                 // on entre dans chaque album
+      ?.filter(chanson => chanson.titre.toLowerCase().includes(texte))
+      .forEach(chanson => {
+        resultats.push({
+          id:           chanson.id,  
+          chansonTitre: chanson.titre,
+          albumTitre:   album.titre,
+          albumId:      album.id,
+          albumCover:   album.cover
+        })
+      })
+  })
+  return resultats
+})
+function allerAChanson(albumId, chansonId) {
+  router.push(`/album/${albumId}?chanson=${chansonId}`)
+}
+
+
 </script>
 
 
@@ -58,6 +85,26 @@ class="form-control form-control-lg"
 placeholder="Rechercher un Khassaïde..."
 v-model="recherche"
 >
+</div>
+<!-- Résultats chansons — visible uniquement quand il y a des correspondances -->
+<div v-if="chansonsFiltrees.length" class="mb-5">
+  <h2 class="mb-3 fw-bold">🎵 Chansons trouvées</h2>
+
+  <ul class="list-group">
+    <li
+        v-for="r in chansonsFiltrees"
+        :key="r.id"
+        class="list-group-item d-flex align-items-center gap-3"
+        @click="allerAChanson(r.albumId, r.id)" 
+        style="cursor:pointer"
+    >
+      <img :src="r.albumCover" style="width:48px;height:48px;object-fit:cover;border-radius:8px">
+      <div>
+        <div class="fw-semibold">{{ r.chansonTitre }}</div>
+        <small class="text-muted">Album : {{ r.albumTitre }}</small>
+      </div>
+    </li>
+  </ul>
 </div>
 
 <h2 class="mb-4 fw-bold">
