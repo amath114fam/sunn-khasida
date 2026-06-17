@@ -33,6 +33,18 @@ const albums = [
       { id: 302, titre: 'Ya-sin', duree: '7:15', fichier: 'https://server11.mp3quran.net/sds/036.mp3' },
       { id: 303, titre: 'Le jour montant', duree: '4:20', fichier: 'https://server11.mp3quran.net/sds/093.mp3' }
     ]
+  },
+  {
+    id: 4,
+    titre: 'Coran',
+    artiste: 'Abdourahma Sudais',
+    genre: 'Al-QURAN',
+    cover: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8juUX9ur9v4nBiwx445qNWKlnR_9sHieYqm-JVyfI_g&s=10',
+    chansons: [
+      { id: 301, titre: 'La  Destinee', duree: '5:30', fichier: 'https://server11.mp3quran.net/sds/097.mp3' },
+      { id: 302, titre: 'Ya-sin', duree: '7:15', fichier: 'https://server11.mp3quran.net/sds/036.mp3' },
+      { id: 303, titre: 'Le jour montant', duree: '4:20', fichier: 'https://server11.mp3quran.net/sds/093.mp3' }
+    ]
   }
 ]
 

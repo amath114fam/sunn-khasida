@@ -77,8 +77,8 @@ function detailAlbum(id) {
 </script>
 
 <template>
-  <div class="lecteur" v-if="piste" @click="detailAlbum(piste.albumId)">
-    <!-- La balise audio native — invisible, mais c'est elle qui joue -->
+  <div class="lecteur" v-if="piste">
+
     <audio
       ref="audioEl"
       @timeupdate="tempsActuel = audioEl.currentTime"
@@ -86,142 +86,308 @@ function detailAlbum(id) {
       @ended="enLecture = false"
     />
 
-    <!-- Infos sur la piste courante -->
-    <div class="piste-info">
-      <span class="piste-titre">{{ piste.titre }}</span>
+    <!-- Album -->
+    <div class="album" @click="detailAlbum(piste.albumId)">
+      <!-- <img
+        :src="album.params.piste.image || '/default-cover.jpg'"
+        alt=""
+      /> -->
+
+      <div class="infos">
+        <h3>{{ piste.titre }}</h3>
+        <p>{{ piste.artiste || 'Sunn Khasida' }}</p>
+      </div>
     </div>
 
-    <!-- Contrôles centraux -->
+    <!-- Contrôle -->
     <div class="controles">
-      <button class="btn-play" @click="toggleLecture">
+
+      <button class="btn-play" @click.stop="toggleLecture">
         {{ enLecture ? '⏸' : '▶' }}
       </button>
 
-      <div class="barre-container">
-        <span class="temps">{{ formaterTemps(tempsActuel) }}</span>
+      <div class="timeline">
+
+        <span>
+          {{ formaterTemps(tempsActuel) }}
+        </span>
+
         <div class="barre" @click="seeker">
-          <div class="barre-fill" :style="{ width: progression + '%' }"></div>
+
+          <div
+            class="barre-fill"
+            :style="{ width: progression + '%' }"
+          />
+
         </div>
-        <span class="temps">{{ formaterTemps(dureeTotal) }}</span>
+
+        <span>
+          {{ formaterTemps(dureeTotal) }}
+        </span>
+
       </div>
+
     </div>
 
     <!-- Volume -->
     <div class="volume">
-      🔉
-      <input type="range" min="0" max="100" :value="volume * 100" @input="changerVolume" />
+
+      🔊
+
+      <input
+        type="range"
+        min="0"
+        max="100"
+        :value="volume*100"
+        @input="changerVolume"
+      />
+
     </div>
+
   </div>
 
-  <!-- Message quand aucune piste n'est sélectionnée -->
-  <div class="lecteur lecteur-vide" v-else>
-    <span>Clique sur une chanson pour lancer la lecture 🎵</span>
-  </div>
+  <!-- <div v-else class="vide">
+    🎵 Sélectionne une piste
+  </div> -->
+
 </template>
 
 <style scoped>
-.lecteur {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 72px;
-  background: #181818;
-  border-top: 1px solid #2a2a2a;
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  padding: 0 24px;
-  z-index: 100;
+
+.lecteur{
+position:fixed;
+
+bottom:14px;
+left:14px;
+right:14px;
+
+height:90px;
+
+background-color: #010917;
+
+backdrop-filter:blur(18px);
+
+border:1px solid rgba(255,255,255,.05);
+
+border-radius:20px;
+
+padding:0 22px;
+
+display:flex;
+
+align-items:center;
+
+justify-content:space-between;
+
+box-shadow:0 10px 40px rgba(0,0,0,.45);
+
+z-index:999;
 }
 
-.lecteur-vide {
-  justify-content: center;
-  color: #555;
-  font-size: 0.9rem;
+
+/* ALBUM */
+
+.album{
+display:flex;
+
+align-items:center;
+
+gap:14px;
+
+width:260px;
+
+cursor:pointer;
 }
 
-.piste-info {
-  min-width: 160px;
-  flex: 1;
+.album img{
+
+width:60px;
+
+height:60px;
+
+border-radius:12px;
+
+object-fit:cover;
+
+box-shadow:
+0 6px 16px rgba(0,0,0,.5);
+
+transition:.3s;
 }
 
-.piste-titre {
-  color: #fff;
-  font-size: 0.9rem;
-  font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: block;
+.album:hover img{
+transform:scale(1.05);
 }
 
-.controles {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  flex: 2;
+.infos h3{
+margin:0;
+
+color:white;
+
+font-size:.95rem;
 }
 
-.btn-play {
-  background: #1db954;
-  border: none;
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  font-size: 1rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.1s;
+.infos p{
+
+margin-top:4px;
+
+color:#b3b3b3;
+
+font-size:.8rem;
 }
 
-.btn-play:hover {
-  transform: scale(1.1);
+
+/* CONTROLES */
+
+.controles{
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+width:45%;
 }
 
-.barre-container {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
+.btn-play{
+
+width:52px;
+
+height:52px;
+
+border:none;
+
+border-radius:50%;
+
+background:
+linear-gradient(
+135deg,
+#1ed760,
+#1db954
+);
+
+font-size:20px;
+
+cursor:pointer;
+
+transition:.3s;
+
+box-shadow:
+0 8px 24px rgba(30,215,96,.35);
 }
 
-.temps {
-  color: #888;
-  font-size: 0.75rem;
-  min-width: 36px;
-  text-align: center;
+.btn-play:hover{
+
+transform:
+scale(1.12);
 }
 
-.barre {
-  flex: 1;
-  height: 4px;
-  background: #3a3a3a;
-  border-radius: 2px;
-  cursor: pointer;
+.timeline{
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+width:100%;
+
+margin-top:10px;
 }
 
-.barre-fill {
-  height: 4px;
-  background: #1db954;
-  border-radius: 2px;
-  transition: width 0.1s linear;
+.timeline span{
+
+font-size:.75rem;
+
+color:#b3b3b3;
+
+width:40px;
 }
 
-.volume {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex: 1;
-  justify-content: flex-end;
-  color: #aaa;
+.barre{
+
+flex:1;
+
+height:6px;
+
+background:#353535;
+
+border-radius:999px;
+
+overflow:hidden;
+
+cursor:pointer;
 }
 
-.volume input[type="range"] {
-  width: 80px;
-  accent-color: #1db954;
+.barre-fill{
+
+height:100%;
+
+background:
+linear-gradient(
+90deg,
+#1ed760,
+#50ff91
+);
+
+border-radius:999px;
+
+transition:
+width .2s;
 }
+
+
+/* VOLUME */
+
+.volume{
+
+display:flex;
+
+align-items:center;
+
+gap:10px;
+
+width:180px;
+
+justify-content:end;
+}
+
+.volume input{
+
+width:100px;
+
+accent-color:#1ed760;
+}
+
+
+/* VIDE */
+
+.vide{
+
+position:fixed;
+
+bottom:14px;
+
+left:14px;
+
+right:14px;
+
+height:90px;
+
+background:#111;
+
+border-radius:20px;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+color:#777;
+
+}
+
 </style>
+```

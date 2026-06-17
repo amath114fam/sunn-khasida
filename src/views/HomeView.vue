@@ -53,83 +53,167 @@ function allerAChanson(albumId, chansonId) {
 
 
 </script>
-
-
+```vue
 <template>
-<section class="hero">
-<div>
 
-<h1 class="display-3 fw-bold">
-Sunu-Khasida
+<div class="home">
+
+<!-- HERO -->
+
+<section class="hero">
+
+<div class="overlay"/>
+
+<div class="hero-content">
+
+<span class="badge-app">
+
+🎵 Bibliothèque numérique
+
+</span>
+
+<h1>
+
+Sunu
+<span>Khasida</span>
+
 </h1>
 
-<p class="lead">
-La plus grande bibliothèque numérique de Khassaïdes
+<p>
+
+Découvrez, écoutez et explorez
+les Khassaïdes dans une expérience moderne.
+
 </p>
 
-<button class="btn btn-warning btn-lg">
+<button
+class="hero-btn"
+>
+
 Découvrir les albums
+
 </button>
 
 </div>
+
 </section>
 
-<section class="py-5">
+
+<!-- CONTENU -->
+
+<section class="contenu">
 
 <div class="container">
 
-<div class="search-box mb-5">
+
+<!-- RECHERCHE -->
+
+<div class="search-box">
+
 <input
 type="text"
-class="form-control form-control-lg"
-placeholder="Rechercher un Khassaïde..."
+placeholder="Rechercher un album ou une chanson..."
 v-model="recherche"
+/>
+
+</div>
+
+
+<!-- RESULTAT -->
+
+<div
+v-if="chansonsFiltrees.length"
+class="resultats"
 >
-</div>
-<!-- Résultats chansons — visible uniquement quand il y a des correspondances -->
-<div v-if="chansonsFiltrees.length" class="mb-5">
-  <h2 class="mb-3 fw-bold">🎵 Chansons trouvées</h2>
 
-  <ul class="list-group">
-    <li
-        v-for="r in chansonsFiltrees"
-        :key="r.id"
-        class="list-group-item d-flex align-items-center gap-3"
-        @click="allerAChanson(r.albumId, r.id)" 
-        style="cursor:pointer"
-    >
-      <img :src="r.albumCover" style="width:48px;height:48px;object-fit:cover;border-radius:8px">
-      <div>
-        <div class="fw-semibold">{{ r.chansonTitre }}</div>
-        <small class="text-muted">Album : {{ r.albumTitre }}</small>
-      </div>
-    </li>
-  </ul>
-</div>
+<h2>
 
-<h2 class="mb-4 fw-bold">
-Albums populaires
+🎧 Résultats
+
 </h2>
 
-<div class="row g-4">
-<div class="col-md-4" v-for="album in albumsFiltres" @click="detailAlbum(album.id)">
-<div class="card album-card" >
+<div
+class="result-card"
+
+v-for="r in chansonsFiltrees"
+
+:key="r.id"
+
+@click="allerAChanson(r.albumId,r.id)"
+
+>
+
+<img :src="r.albumCover"/>
+
+<div>
+
+<h5>
+
+{{ r.chansonTitre }}
+
+</h5>
+
+<p>
+
+{{ r.albumTitre }}
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ALBUM -->
+
+<div class="albums">
+
+<div class="titre">
+
+Albums populaires
+
+</div>
+
+<div class="grille">
+
+<div
+class="album"
+
+v-for="album in albumsFiltres"
+
+:key="album.id"
+
+@click="detailAlbum(album.id)"
+>
+
+<div class="image">
 
 <img
 :src="album.cover"
-class="card-img-top"
->
+/>
 
-<div class="card-body">
+</div>
 
-<h5>{{ album.titre }}</h5>
+<div class="infos">
 
-<p class="text-muted">
+<h5>
+
+{{ album.titre }}
+
+</h5>
+
+<p>
+
 {{ album.artiste }}
+
 </p>
+
 </div>
 
 </div>
+
 </div>
 
 </div>
@@ -138,63 +222,375 @@ class="card-img-top"
 
 </section>
 
-<footer class="py-4 text-center">
 
-<h4>Sunu-Khasida</h4>
+<footer>
+
+<h3>
+
+Sunu-Khasida
+
+</h3>
 
 <p>
-La plateforme moderne dédiée aux Khassaïdes.
+
+Une expérience moderne dédiée aux Khassaïdes
+
 </p>
 
 </footer>
-</template>
-    <style scoped>
 
-body{
-    background:#f8f9fa;
+</div>
+
+</template>
+
+
+
+<style scoped>
+
+.home{
+
+background:
+
+#090909;
+
+color:white;
+
+min-height:100vh;
+
 }
+
+
+/* HERO */
 
 .hero{
-    height:70vh;
-    background:
-    linear-gradient(rgba(0,0,0,.6),
-    rgba(0,0,0,.6)),
-    url("https://images.unsplash.com/photo-1512632578888-169bbbc64f33");
-    background-size:cover;
-    background-position:center;
-    color:white;
 
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
+height:85vh;
+
+position:relative;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+text-align:center;
+
+overflow:hidden;
+
+background:url("https://images.unsplash.com/photo-1512632578888-169bbbc64f33")
+center/cover;
 }
 
-.album-card{
-    border:none;
-    border-radius:20px;
-    overflow:hidden;
-    transition:.3s;
-    box-shadow:0 4px 20px rgba(0,0,0,.1);
+.overlay{
+
+position:absolute;
+
+inset:0;
+
+background:linear-gradient(
+180deg,
+rgba(0,0,0,.2),
+rgba(9,9,9,.95)
+);
 }
 
-.album-card:hover{
-    transform:translateY(-8px);
+.hero-content{
+
+position:relative;
+
+max-width:900px;
+
+padding:20px;
 }
 
-.album-card img{
-    height:220px;
-    object-fit:cover;
+.badge-app{
+
+padding:10px 18px;
+
+background:rgba(255,255,255,.08);
+
+backdrop-filter:
+
+blur(14px);
+
+border-radius:999px;
+
+display:inline-block;
+
+margin-bottom:30px;
+}
+
+.hero h1{
+
+font-size:6rem;
+
+font-weight:900;
+
+line-height:.95;
+
+margin-bottom:22px;
+}
+
+.hero span{
+
+color:#1ed760;
+}
+
+.hero p{
+
+font-size:1.3rem;
+
+color:#d0d0d0;
+
+margin-bottom:40px;
+}
+
+.hero-btn{
+
+background:linear-gradient(
+135deg,
+#1ed760,
+#149a44
+);
+
+padding:18px 40px;
+
+border:none;
+
+border-radius:999px;
+
+font-size:1.05rem;
+
+font-weight:700;
+
+cursor:pointer;
+
+transition:.3s;
+}
+
+.hero-btn:hover{
+
+transform:
+translateY(-4px);
+
+box-shadow:
+0 20px 40px rgba(30,215,96,.25);
+
+}
+
+
+/* SECTION */
+
+.contenu{
+
+padding:80px 0;
+background-color: #010917;
 }
 
 .search-box{
-    max-width:700px;
-    margin:auto;
+
+max-width:820px;
+
+margin:auto;
+
+margin-bottom:60px;
 }
 
+.search-box input{
+
+width:100%;
+
+background:rgba(255,255,255,.05);
+
+border:none;
+
+color:white;
+
+padding:22px;
+
+border-radius:20px;
+
+font-size:1rem;
+
+backdrop-filter:
+
+blur(12px);
+
+outline:none;
+}
+
+
+/* RESULTAT */
+
+.resultats{
+
+margin-bottom:70px;
+}
+
+.resultats h2{
+
+margin-bottom:30px;
+}
+
+.result-card{
+
+display:flex;
+
+align-items:center;
+
+gap:18px;
+
+padding:18px;
+
+margin-bottom:12px;
+
+border-radius:18px;
+
+background:rgba(255,255,255,.04);
+
+cursor:pointer;
+
+transition:.3s;
+}
+
+.result-card:hover{
+
+transform:
+
+translateX(8px);
+
+background:rgba(255,255,255,.08);
+}
+
+.result-card img{
+
+width:70px;
+
+height:70px;
+
+border-radius:14px;
+
+object-fit:cover;
+}
+
+.result-card p{
+
+color:#aaa;
+
+margin:0;
+}
+
+
+/* ALBUM */
+
+.titre{
+
+font-size:2rem;
+
+font-weight:800;
+
+margin-bottom:30px;
+}
+
+.grille{
+
+display:grid;
+
+grid-template-columns:
+
+repeat(
+auto-fill,
+minmax(260px,1fr)
+);
+
+gap:28px;
+}
+
+.album{
+
+cursor:pointer;
+
+background-color: #141926;
+
+border-radius:24px;
+
+overflow:hidden;
+
+transition:.35s;
+}
+
+.album:hover{
+
+transform:
+
+translateY(-12px);
+}
+
+.image{
+
+overflow:hidden;
+}
+
+.image img{
+
+width:100%;
+
+height:320px;
+
+object-fit:cover;
+
+transition:.5s;
+}
+
+.album:hover img{
+
+transform:
+
+scale(1.08);
+}
+
+.infos{
+
+padding:20px;
+}
+
+.infos p{
+
+color:#aaa;
+}
+
+
+/* FOOTER */
+
 footer{
-    background:#111;
-    color:white;
+
+padding:60px;
+
+text-align:center;
+
+border-top:1px solid rgba(255,255,255,.05);
+
+color:#aaa;
+background-color: #021128;
+}
+
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.hero h1{
+
+font-size:3rem;
+}
+
+.hero p{
+
+font-size:1rem;
+}
+
 }
 
 </style>
+```

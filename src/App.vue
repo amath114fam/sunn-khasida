@@ -57,7 +57,7 @@ function toggleFavori(piste) {
 
 .app-layout {
   min-height: 100vh;
-  background: #121212;
+  background: #021128;
   color: #ffffff;
   font-family: 'Segoe UI', system-ui, sans-serif;
 }
@@ -67,7 +67,7 @@ function toggleFavori(piste) {
   align-items: center;
   justify-content: space-between;
   padding: 1rem 2rem;
-  background: linear-gradient(135deg, #1db954, #f4c20d);
+  background-color: #010917;
   position: sticky;
   top: 0;
   z-index: 10;
