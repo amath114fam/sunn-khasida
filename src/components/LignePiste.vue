@@ -1,8 +1,11 @@
 <script setup>
 import { computed } from 'vue'
+
 const props = defineProps({
   piste: { type: Object, required: true },
-  favoris: { type: Array, default: () => [] }
+  favoris: { type: Array, default: () => [] },
+  pisteActuelle: { type: Object, default: null }, 
+  estEnLecture: { type: Boolean, default: false } // ← ajoute
 })
 const emit = defineEmits(['selectionner', 'toggle-favori'])
 
@@ -18,14 +21,21 @@ function toggleFavori() {
 function jouer() {
   emit('selectionner', props.piste)
 }
+
+
+const enLecture = computed(() =>
+  props.pisteActuelle?.id === props.piste.id && props.estEnLecture
+)
+
+
 </script>
 ```vue
 <template>
-  <div class="ligne-piste" @click="jouer">
+  <div class="ligne-piste"  :class="{ active: enLecture }" @click="jouer">
 
     <!-- Bouton -->
     <div class="play-zone">
-      <span class="play">▶</span>
+      <span class="play"> {{ enLecture ? '⏸' : '▶' }}</span>
     </div>
 
     <!-- Infos -->
@@ -45,7 +55,7 @@ function jouer() {
     <span class="duree">
       {{ piste.duree }}
     </span>
-      <span class="favori-btn" @click="toggleFavori">
+      <span class="favori-btn" @click.stop="toggleFavori">
     {{ estFavori ? '❤️' : '🤍' }}
     </span>
   </div>
@@ -222,6 +232,15 @@ transition:.25s;
 
 opacity:1;
 }
+.active {
+  background: #1a3a2a;
+  border-left: 3px solid #1db954;
+}
+.active .piste-icone {
+  color: #1db954;
+}
+
+
 
 </style>
 ```

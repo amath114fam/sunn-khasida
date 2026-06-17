@@ -23,6 +23,8 @@ function toggleFavori(piste) {
     favoris.value.push(piste)
   }
 }
+
+const estEnLecture = ref(false)
 </script>
 
 <template>
@@ -40,13 +42,18 @@ function toggleFavori(piste) {
       <RouterView v-slot="{ Component }">
         <component :is="Component" 
         :favoris="favoris"
+        :piste-actuelle="pisteActuelle"
+        :est-en-lecture="estEnLecture"
         @piste-selectionnee="definirPiste"
         @toggle-favori="toggleFavori" />
       </RouterView>
 
     </main>
 
-    <LecteurAudio :piste="pisteActuelle" />
+    <LecteurAudio 
+    :piste="pisteActuelle" 
+    @update:enLecture="estEnLecture = $event"
+    />
   </div>
 </template>
 

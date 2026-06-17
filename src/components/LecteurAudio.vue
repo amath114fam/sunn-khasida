@@ -12,6 +12,8 @@ const props = defineProps({
 // ② Référence vers la balise <audio> du template
 const audioEl = ref(null)
 
+const emit = defineEmits(['update:enLecture'])
+
 // ③ État local du lecteur
 const enLecture = ref(false)
 const tempsActuel = ref(0)
@@ -29,6 +31,7 @@ watch(() => props.piste, async(nouvellePiste) => {
   audioEl.value.volume = volume.value
   audioEl.value.play()
   enLecture.value = true
+  emit('update:enLecture', true)
 })
 
 // ⑤ Basculer play / pause
@@ -40,6 +43,7 @@ function toggleLecture() {
     audioEl.value.play()
   }
   enLecture.value = !enLecture.value
+  emit('update:enLecture', enLecture.value)
 }
 
 // ⑥ Avancer dans la chanson en cliquant sur la barre
@@ -77,17 +81,17 @@ function detailAlbum(id) {
 </script>
 
 <template>
-  <div class="lecteur" v-if="piste"  @click="detailAlbum(piste.albumId)">
+  <div class="lecteur" v-if="piste" >
 
     <audio
       ref="audioEl"
       @timeupdate="tempsActuel = audioEl.currentTime"
       @loadedmetadata="dureeTotal = audioEl.duration"
-      @ended="enLecture = false"
+      @ended="enLecture = false; emit('update:enLecture', false)"
     />
 
     <!-- Album -->
-    <div class="album">
+    <div class="album" @click="detailAlbum(piste.albumId)">
       <!-- <img
         :src="album.params.piste.image || '/default-cover.jpg'"
         alt=""

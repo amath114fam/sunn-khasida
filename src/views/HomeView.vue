@@ -51,7 +51,10 @@ function allerAChanson(albumId, chansonId) {
   router.push(`/album/${albumId}?chanson=${chansonId}`)
 }
 
-
+function favorislAlbum() {
+  router.push(`/favoris`)
+  
+}
 </script>
 ```vue
 <template>
@@ -88,10 +91,9 @@ les Khassaïdes dans une expérience moderne.
 
 <button
 class="hero-btn"
+@click="favorislAlbum"
 >
-
-Découvrir les albums
-
+Mes Favoris
 </button>
 
 </div>

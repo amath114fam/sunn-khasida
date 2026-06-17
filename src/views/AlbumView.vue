@@ -12,7 +12,9 @@ const album = computed(() =>
 )
 
 const props = defineProps({
-  favoris: { type: Array, default: () => [] }
+  favoris: { type: Array, default: () => [] },
+  pisteActuelle: { type: Object, default: null },
+  estEnLecture: { type: Boolean, default: false } // ← ajoute
 })
 
 const emit = defineEmits(['piste-selectionnee', 'toggle-favori'])
@@ -68,6 +70,8 @@ const chansonsAffichees = computed(() => {
         :key="piste.id"
         :piste="piste"
         :favoris="favoris"
+        :est-en-lecture="estEnLecture"
+        :piste-actuelle="pisteActuelle"
         @selectionner="gererSelection"
         @toggle-favori="gererFavori"
       />
