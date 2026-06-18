@@ -1,9 +1,15 @@
 <script setup>
 const props = defineProps({
-  favoris: { type: Array, default: () => [] }
+  favoris: { type: Array, default: () => [] },
+  estEnLecture: { type: Boolean, default: false },
+  pisteActuelle: { type: Object, default: null } 
 })
 
 const emit = defineEmits(['piste-selectionnee', 'toggle-favori'])
+
+function estEnLecturePiste(piste) {
+  return props.pisteActuelle?.id === piste.id && props.estEnLecture
+}
 </script>
 
 <template>
@@ -19,13 +25,16 @@ const emit = defineEmits(['piste-selectionnee', 'toggle-favori'])
         v-for="piste in favoris"
         :key="piste.id"
         class="piste-card"
+        @click="emit('piste-selectionnee', piste)"
       >
         <img :src="piste.albumCover" class="piste-cover" />
         <div class="piste-infos">
           <p class="piste-titre">{{ piste.titre }}</p>
           <p class="piste-album">{{ piste.albumTitre }} · {{ piste.albumArtiste }}</p>
         </div>
-        <button class="btn-play" @click="emit('piste-selectionnee', piste)">▶</button>
+        <button class="btn-play">
+          {{ estEnLecturePiste(piste) ? '⏸' : '▶'}}
+        </button>
         <button class="btn-favori" @click="emit('toggle-favori', piste)">❤️</button>
       </div>
     </div>
