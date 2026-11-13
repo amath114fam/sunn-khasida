@@ -1,4 +1,5 @@
 <script setup>
+import { Heart, Pause, Play, Frown } from 'lucide-vue-next'
 const props = defineProps({
   favoris: { type: Array, default: () => [] },
   estEnLecture: { type: Boolean, default: false },
@@ -14,10 +15,10 @@ function estEnLecturePiste(piste) {
 
 <template>
   <div class="container py-5">
-    <h2 class="fw-bold mb-4">❤️ Mes Favoris</h2>
+    <h2 class="fw-bold mb-4"><Heart :size="24" aria-hidden="true" /> Mes Favoris</h2>
 
     <div v-if="favoris.length === 0" class="vide">
-      <p>😔 Aucune chanson en favori pour le moment</p>
+      <p><Frown :size="20" aria-hidden="true" /> Aucune chanson en favori pour le moment</p>
     </div>
 
     <div v-else>
@@ -33,9 +34,10 @@ function estEnLecturePiste(piste) {
           <p class="piste-album">{{ piste.albumTitre }} · {{ piste.albumArtiste }}</p>
         </div>
         <button class="btn-play">
-          {{ estEnLecturePiste(piste) ? '⏸' : '▶'}}
+          <Pause v-if="estEnLecturePiste(piste)" :size="18" aria-hidden="true" />
+          <Play v-else :size="18" aria-hidden="true" />
         </button>
-        <button class="btn-favori" @click="emit('toggle-favori', piste)">❤️</button>
+        <button class="btn-favori" type="button" aria-label="Retirer des favoris" @click="emit('toggle-favori', piste)"><Heart :size="20" fill="currentColor" aria-hidden="true" /></button>
       </div>
     </div>
   </div>
@@ -72,12 +74,19 @@ function estEnLecturePiste(piste) {
   height: 38px;
   font-size: 1rem;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 .btn-favori {
   background: transparent;
   border: none;
   font-size: 1.3rem;
   cursor: pointer;
+  color: #f472b6;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 .vide {
   text-align: center;

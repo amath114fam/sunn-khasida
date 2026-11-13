@@ -2,6 +2,7 @@
 import { ref, onMounted, computed } from 'vue'
 import albumsData from '../data/album.js'
 import { useRouter } from 'vue-router'
+import { Headphones, Music2, Search } from 'lucide-vue-next'
 const router = useRouter()
 
 const albums = ref([])
@@ -71,7 +72,7 @@ function favorislAlbum() {
 
       <span class="badge-app">
 
-      🎵 Bibliothèque numérique
+      <Music2 :size="16" aria-hidden="true" /> Bibliothèque numérique
 
       </span>
 
@@ -111,6 +112,7 @@ Mes Favoris
 
     <div class="search-box">
 
+    <Search :size="20" aria-hidden="true" />
     <input
     type="text"
     placeholder="Rechercher un album ou une chanson..."
@@ -129,7 +131,7 @@ Mes Favoris
 
     <h2>
 
-    🎧 Résultats
+    <Headphones :size="22" aria-hidden="true" /> Résultats
 
     </h2>
 
@@ -388,12 +390,21 @@ background-color: #010917;
 }
 
 .search-box{
-
+position:relative;
+display:flex;
+align-items:center;
 max-width:820px;
 
 margin:auto;
 
 margin-bottom:60px;
+}
+
+.search-box :deep(svg){
+position:absolute;
+left:22px;
+color:#aaa;
+pointer-events:none;
 }
 
 .search-box input{
@@ -407,6 +418,7 @@ border:none;
 color:white;
 
 padding:22px;
+padding-left:56px;
 
 border-radius:20px;
 

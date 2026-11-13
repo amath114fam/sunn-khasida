@@ -2,6 +2,7 @@
 import { RouterLink, RouterView } from 'vue-router'
 import { ref } from 'vue'
 import LecteurAudio from './components/LecteurAudio.vue'
+import { Heart, Music2 } from 'lucide-vue-next'
 
 const pisteActuelle = ref(null)
 
@@ -28,15 +29,14 @@ const estEnLecture = ref(false)
 </script>
 
 <template>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <div class="app-layout">
     
     <header class="app-header">
-      <RouterLink to="/" class="logo">🎵 Sunu-Khasida</RouterLink>
+      <RouterLink to="/" class="logo"><Music2 :size="22" aria-hidden="true" /> Sunu-Khasida</RouterLink>
       <nav>
         <RouterLink to="/" class="nav-link">Accueil</RouterLink>
         <RouterLink to="/favoris" class="nav-btn-favoris">
-          <span class="coeur">♥</span>
+          <Heart class="coeur" :size="16" aria-hidden="true" />
           Favoris
           <span v-if="favoris.length > 0" class="badge">{{ favoris.length }}</span>
         </RouterLink>
@@ -86,6 +86,9 @@ const estEnLecture = ref(false)
 }
 
 .logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   font-size: 1.5rem;
   font-weight: bold;
   color: #fff;
@@ -140,8 +143,7 @@ nav {
 }
 
 .nav-btn-favoris .coeur {
-  font-size: 1rem;
-  line-height: 1;
+  flex-shrink: 0;
   animation: pulse-heart 1.8s ease-in-out infinite;
 }
 

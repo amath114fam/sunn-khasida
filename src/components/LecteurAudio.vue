@@ -1,6 +1,7 @@
 <script setup>
 import { ref, watch, computed, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
+import { Pause, Play, Volume2 } from 'lucide-vue-next'
 
 const router = useRouter()
 
@@ -93,7 +94,8 @@ function detailAlbum(id) {
     <div class="controles">
 
       <button class="btn-play" @click.stop="toggleLecture">
-        {{ enLecture ? '⏸' : '▶' }}
+        <Pause v-if="enLecture" :size="20" aria-hidden="true" />
+        <Play v-else :size="20" aria-hidden="true" />
       </button>
 
       <div class="timeline">
@@ -120,7 +122,7 @@ function detailAlbum(id) {
     <!-- Volume -->
     <div class="volume">
 
-      🔊
+      <Volume2 :size="20" aria-hidden="true" />
 
       <input
         type="range"
@@ -240,6 +242,12 @@ width:52px;
 height:52px;
 
 border:none;
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
 
 border-radius:50%;
 

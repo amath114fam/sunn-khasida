@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue'
+import { Heart, Pause, Play } from 'lucide-vue-next'
 
 const props = defineProps({
   piste: { type: Object, required: true },
@@ -30,7 +31,10 @@ const enLecture = computed(() =>
   <div class="ligne-piste" :class="{ active: enLecture }" @click="jouer">
 
     <div class="play-zone">
-      <span class="play"> {{ enLecture ? '⏸' : '▶' }}</span>
+      <span class="play">
+        <Pause v-if="enLecture" :size="18" aria-hidden="true" />
+        <Play v-else :size="18" aria-hidden="true" />
+      </span>
     </div>
 
     <div class="contenu">
@@ -45,9 +49,9 @@ const enLecture = computed(() =>
     <span class="duree">
       {{ piste.duree }}
     </span>
-    <span class="favori-btn" @click.stop="toggleFavori">
-      {{ estFavori ? '❤️' : '🤍' }}
-    </span>
+    <button class="favori-btn" type="button" :aria-label="estFavori ? 'Retirer des favoris' : 'Ajouter aux favoris'" @click.stop="toggleFavori">
+      <Heart :size="20" :fill="estFavori ? 'currentColor' : 'none'" aria-hidden="true" />
+    </button>
   </div>
 </template>
 
@@ -161,6 +165,14 @@ const enLecture = computed(() =>
 }
 
 .favori-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #f472b6;
+  cursor: pointer;
   flex-shrink: 0;
 }
 

@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { useRoute , useRouter} from 'vue-router'
 import albumsData from '../data/album.js'
 import LignePiste from '@/components/LignePiste.vue'
+import { ArrowLeft } from 'lucide-vue-next'
 
 const route = useRoute()
 const router = useRouter()  
@@ -58,7 +59,7 @@ const chansonsAffichees = computed(() => {
         class="btn btn-outline-secondary btn-sm"
         @click="router.push(`/album/${route.params.id}`)"
       >
-        ← Voir toutes les chansons
+        <ArrowLeft :size="16" aria-hidden="true" /> Voir toutes les chansons
       </button>
     </div>
 
